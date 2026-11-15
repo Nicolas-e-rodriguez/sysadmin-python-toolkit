@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SysAdmin Toolkit - Panel Local</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <header class="pb-3 mb-4 border-bottom">
+            <h1 class="h3">Panel de Operaciones - SysAdmin Toolkit</h1>
+            <span class="text-muted">Modo de ejecución: Abstracto / Mock Local</span>
+        </header>
+
+        <!-- Formulario de Búsqueda -->
+        <form method="get" action="/" class="row g-3 mb-4">
+            <div class="col-auto">
+                <input type="text" name="q" class="form-control" placeholder="Filtrar por usuario o nombre..." value="{{ query }}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+            <div class="col-auto">
+                <a href="/" class="btn btn-secondary">Limpiar</a>
+            </div>
+        </form>
+
+        <!-- Tabla de Resultados -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Nombre Completo</th>
+                            <th>Correo</th>
+                            <th>Estado</th>
+                            <th>Departamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                        <tr>
+                            <td><code>{{ u.username }}</code></td>
+                            <td>{{ u.cn }}</td>
+                            <td>{{ u.mail }}</td>
+                            <td>
+                                {% if u.status == 'Active' %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% elif u.status == 'Locked' %}
+                                    <span class="badge bg-warning text-dark">Bloqueado</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Desactivado</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ u.dept }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">No se encontraron usuarios coincidentes.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
